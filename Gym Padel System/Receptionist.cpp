@@ -37,7 +37,7 @@ bool Receptionist::addToClass(long long classId, long long memberId)
 
 bool Receptionist::removeFromClass(long long index, long long memberId)
 {
-	long long classID = FileManager::GetMemberClassID(memberId, FileManager::classes[index].getClassName());
+	long long classID = FileManager::getMemberClassID(memberId, FileManager::classes[index].getClassName());
 	if (FileManager::members[memberId].inClass(classID))
 	{
 		FileManager::members[memberId].leaveClass(classID);

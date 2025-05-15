@@ -47,15 +47,15 @@ public:
 	static map<long long, Member>members;
 	static map<long long, Coach>coachesInfo;
 	static map<long long, Court>courts;
-	static unordered_map<long long, queue<long long>>waitingLists;
-	static unordered_map<long long, queue<long long>>vipWaitingList;
+	static map<long long, queue<long long>>waitingLists;
+	static map<long long, queue<long long>>vipWaitingList;
 	static map<long long, ClassSession>classes;
 	static unordered_map<int, Staff*>staff;
 	static bool reset;
 	static vector<ClassSession> getSessions(string className);
-	static long long GetMemberClassID(long long MemberID, string ClassName);
+	static long long getMemberClassID(long long MemberID, string ClassName);
 	static bool AlreadyInClass(long long MemberID, long long ClassID);
-	static set<Slot> getBookedSlots();
+	static map<long long, set<Slot>> getBookedSlots();
 
 
 	static void Load();

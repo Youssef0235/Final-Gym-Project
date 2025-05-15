@@ -11,8 +11,8 @@
 map<long long, Member> FileManager::members;
 map<long long, Coach> FileManager::coachesInfo;
 map<long long, Court> FileManager::courts;
-unordered_map<long long, queue<long long>> FileManager::waitingLists;
-unordered_map<long long, queue<long long>>FileManager::vipWaitingList;
+map<long long, queue<long long>> FileManager::waitingLists;
+map<long long, queue<long long>>FileManager::vipWaitingList;
 map<long long, ClassSession> FileManager::classes;
 unordered_map<int, Staff*> FileManager::staff;
 bool FileManager::reset;
@@ -49,21 +49,19 @@ bool FileManager::AlreadyInClass(long long MemberID, long long ClassID)
 	return false;
 }
 
-set<Slot> FileManager::getBookedSlots()
+map<long long, set<Slot>> FileManager::getBookedSlots()
 {
-	set<Slot>bookedSlots;
+	map<long long, set<Slot>>bookedSlots;
 	auto it = members.begin();
 	while (it != members.end())
 	{
-		set<Slot>currentMember = members[it->first].getSlots();
-		for (auto x = currentMember.begin(); x != currentMember.end(); x++)
-			bookedSlots.insert(*x);
+		bookedSlots[it->first] = members[it->first].getSlots();
 		it++;
 	}
 	return bookedSlots;
 }
 
-long long FileManager::GetMemberClassID(long long MemberID, string ClassName)
+long long FileManager::getMemberClassID(long long MemberID, string ClassName)
 {
 	unordered_set<long long> subClassesIDs = members[MemberID].getSubClasses();
 

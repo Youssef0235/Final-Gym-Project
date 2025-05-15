@@ -1,12 +1,19 @@
 #include "BookingSystem.h"
 #include <ctime>
 
-set<Slot> BookingSystem::bookedSlots;
+map<long long, set<Slot>> BookingSystem::bookedSlots;
 
 // Slot Not Booked
 bool BookingSystem::isSlotAvailable(const Slot& slot)
 {
-	return bookedSlots.find(slot) == bookedSlots.end();
+	auto it = bookedSlots.begin();
+	while (it != bookedSlots.end())
+	{
+		if (bookedSlots[it->first].find(slot) != bookedSlots[it->first].end())
+			return false;
+		it++;
+	}
+	return true;
 }
 
 // Closest Free Slot
@@ -69,7 +76,7 @@ void BookingSystem::makeBooking(const Slot& slot, long long memberId)
 {
 	FileManager::members[memberId].setTotalPaid(FileManager::members[memberId].getTotalPaid() + FileManager::courts[slot.getCourtID()].getBookingPrice());
 	FileManager::members[memberId].addSlot(slot);
-	bookedSlots.insert(slot);
+	bookedSlots[memberId].insert(slot);
 }
 
 bool BookingSystem::cancelBooking(long long memberId, Slot slot)
@@ -100,7 +107,7 @@ bool BookingSystem::cancelBooking(long long memberId, Slot slot)
 void BookingSystem::removeSlot(long long memberId, const Slot& slot)
 {
 	FileManager::members[memberId].removeSlot(slot);
-	bookedSlots.erase(slot);
+	bookedSlots[memberId].erase(slot);
 }
 
 long long BookingSystem::getCourtId(string location)
@@ -115,21 +122,7 @@ long long BookingSystem::getCourtId(string location)
 	return -1;
 }
 
-void BookingSystem::setBookedSlots(const set<Slot> &bookedslots)
+void BookingSystem::setBookedSlots(const map<long long, set<Slot>>& BookedSlots)
 {
-	bookedSlots = bookedslots;
-}
-
-bool BookingSystem::foundSlot(long long memberId, const Slot& slot)
-{
-	set<Slot>slots = FileManager::members[memberId].getSlots();
-	auto it = slots.begin();
-	while (it != slots.end())
-	{
-		Slot currentSlot = *it;
-		if (currentSlot == slot)
-			return true;
-		it++;
-	}
-	return false;
+	bookedSlots = BookedSlots;
 }
