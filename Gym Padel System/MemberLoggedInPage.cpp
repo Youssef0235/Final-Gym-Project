@@ -172,7 +172,7 @@ void MemberLoggedInPage::RenewPlanButtonClicked()
 {
 	setAllWidgetsVisibleFalse();
 	int newPrice;
-	bool isOneWeek = Date::oneOrMoreWeekLeft(Date::getTodaysDate(), FileManager::members[MemberID].getEndDate());
+	bool isOneWeek = Date::oneWeekLeft(Date::getTodaysDate(), FileManager::members[MemberID].getEndDate());
 	if (FileManager::members[MemberID].getPlanName() == "")
 	{
 		setAllWidgetsVisibleFalse();

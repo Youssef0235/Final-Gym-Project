@@ -57,18 +57,8 @@ Date Date::getTodaysDate()
 
 bool Date::isFutureDate(const Date& dateToCheck)
 {
-    time_t t = time(nullptr);
-    tm now;
-    localtime_s(&now, &t);
-    int currentDay = now.tm_mday;
-    int currentMonth = now.tm_mon + 1;
-    int currentYear = now.tm_year + 1900;
-    if (dateToCheck.getYear() != currentYear)
-        return dateToCheck.getYear() > currentYear;
-    else  if (dateToCheck.getMonth() != currentMonth)
-        return dateToCheck.getMonth() > currentMonth;
-    else // If dateToCheck.getDay() == currentDay -> todays date -> Not Future
-        return dateToCheck.getDay() > currentDay;
+    Date todays = getTodaysDate();
+    return todays < dateToCheck;
 }
 
 bool Date::isFirstDay()
@@ -134,24 +124,6 @@ bool Date::oneWeekLeft(const Date& a, const Date& b)
     time_t time2 = std::mktime(&date2);
     double diff = difftime(time2, time1);
     return diff <= 7 * 24 * 60 * 60;
-}
-
-bool Date::oneOrMoreWeekLeft(const Date& a, const Date& b)
-{
-    tm date1 = {};
-    date1.tm_year = a.getYear() - 1900;
-    date1.tm_mon = a.getMonth() - 1;
-    date1.tm_mday = a.getDay();
-
-    tm date2 = {};
-    date2.tm_year = b.getYear() - 1900;
-    date2.tm_mon = b.getMonth() - 1;
-    date2.tm_mday = b.getDay();
-
-    time_t time1 = std::mktime(&date1);
-    time_t time2 = std::mktime(&date2);
-    double diff = difftime(time2, time1);
-    return diff >= 7 * 24 * 60 * 60;
 }
 
 bool Date::isHourInPast(int hour) {

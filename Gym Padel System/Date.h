@@ -26,15 +26,12 @@ public:
 
 	// Utilities
 	static Date getTodaysDate();
-	// If Today Or Past -> False
 	static bool isFutureDate(const Date& dateToCheck);
-	// If 1/x/x -> True
 	static bool isFirstDay();
 	static Date extendBy(Date date, int months);
 	static bool isLeapYear(int year);
 	static Date getNextDate(const Date& date);
 	static bool oneWeekLeft(const Date& a, const Date& b);
-	static bool oneOrMoreWeekLeft(const Date& a, const Date& b);
 	static bool isHourInPast(int hour);
 
 	// Operator Overloading
