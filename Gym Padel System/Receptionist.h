@@ -15,7 +15,6 @@ public:
 	static bool removeFromClass(long long index, long long memberId);
 	static void addToWaiting(long long classId, long long memberId);
 	static void addFirstInWaiting(long long classId);
-	static void removeMemberFromGym(long long memberId);
 	static long long getLastMemberId();
 	static long long getLastClassId();
 	static int applyDiscount(string planName, double rate);

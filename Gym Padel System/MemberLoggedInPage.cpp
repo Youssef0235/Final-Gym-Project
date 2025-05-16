@@ -172,15 +172,15 @@ void MemberLoggedInPage::RenewPlanButtonClicked()
 {
 	setAllWidgetsVisibleFalse();
 	int newPrice;
-	bool isOneWeek = Date::oneWeekLeft(Date::getTodaysDate(), FileManager::members[MemberID].getEndDate());
-	if (FileManager::members[MemberID].getPlanName() == "")
+	bool isOneWeek = Date::oneWeekLeft(Date::getTodaysDate(), FileManager::members[MemberID].getPlan().getEndDate());
+	if (!FileManager::members[MemberID].isSubscribed())
 	{
 		setAllWidgetsVisibleFalse();
 		ui.RenewPlanWidgetE->setVisible(true);
 	}
 	else if(isOneWeek)
 	{
-		newPrice = Receptionist::applyDiscount(FileManager::members[MemberID].getPlanName(), 0.25);
+		newPrice = Receptionist::applyDiscount(FileManager::members[MemberID].getPlan().getName(), 0.25);
 		FileManager::members[MemberID].setTotalPaid(FileManager::members[MemberID].getTotalPaid() + newPrice);
 		QString np = QString::number(newPrice);
 		ui.RenewPlanWidgetTxtEdit->setText("The new price is " + np + " due to early renewal\nAre you sure you want to renew?");
@@ -188,7 +188,7 @@ void MemberLoggedInPage::RenewPlanButtonClicked()
 	}
 	else
 	{
-		newPrice = ReadData::getPrice(FileManager::members[MemberID].getPlanName());
+		newPrice = ReadData::getPrice(FileManager::members[MemberID].getPlan().getName());
 		FileManager::members[MemberID].setTotalPaid(FileManager::members[MemberID].getTotalPaid() + newPrice);
 		QString np = QString::number(newPrice);
 		ui.RenewPlanWidgetTxtEdit->setText("The price is " + np + "\nAre you sure you want to renew?");
@@ -216,7 +216,7 @@ void MemberLoggedInPage::RenewPlanWidgetEButtonClicked()
 void MemberLoggedInPage::CancelPlanButtonClicked()
 {
 	setAllWidgetsVisibleFalse();
-	if (FileManager::members[MemberID].getPlanName() == "")
+	if (!FileManager::members[MemberID].isSubscribed())
 	{
 		ui.RenewPlanWidgetE->setVisible(true);
 	}
@@ -234,7 +234,7 @@ void MemberLoggedInPage::ExitCPW()
 void MemberLoggedInPage::AddWorkoutButtonClicked()
 {
 	setAllWidgetsVisibleFalse();
-	if (FileManager::members[MemberID].getPlanName() == "")
+	if (!FileManager::members[MemberID].isSubscribed())
 	{
 		ui.RenewPlanWidgetE->setVisible(true);
 	}
@@ -600,7 +600,7 @@ void MemberLoggedInPage::CheckButtonClicked()
 		}
 		else
 		{
-			s = BookingSystem::searchNext(slotDate, hour, FileManager::courts[id].getLocation());
+			s = BookingSystem::searchNext(slotDate, hour, id);
 
 			day = s.getDate().getDay();
 			d = QString::number(day);
@@ -793,13 +793,13 @@ void MemberLoggedInPage::ProfileButtonClicked()
 	QString Fname = QString::fromStdString(FileManager::members[MemberID].getFname());
 	ui.NameLabel->setText("Hello, " + Fname);
 	ui.IDLabel->setText("ID : " + QString::number(MemberID));
-	if (FileManager::members[MemberID].getPlanName() == "")
+	if (!FileManager::members[MemberID].isSubscribed())
 	{
 		ui.PlanLabel->setText("Plan : Not Subscribed Yet.");
 	}
 	else
 	{
-		ui.PlanLabel->setText(QString::fromStdString(FileManager::members[MemberID].getPlanName()));
+		ui.PlanLabel->setText(QString::fromStdString(FileManager::members[MemberID].getPlan().getName()));
 	}
 	if (FileManager::members[MemberID].getVipStatus())
 	{

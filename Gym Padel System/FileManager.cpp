@@ -456,7 +456,7 @@ void FileManager::handleSubscriptions()
 	auto it = members.begin();
 	while (it != members.end())
 	{
-		Date userEndDate = members[it->first].getEndDate();
+		Date userEndDate = members[it->first].getPlan().getEndDate();
 		if (!Date::isFutureDate(userEndDate))
 			members[it->first].cancelPlan();
 		it++;

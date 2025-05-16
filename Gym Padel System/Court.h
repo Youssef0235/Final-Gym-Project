@@ -19,9 +19,9 @@ public:
 	void setBookingPrice(int price);
 
 	int getID() const;
+	int getBookingPrice() const;
 	string getLocation() const;
 	string getName() const;
-	int getBookingPrice() const;
 };
 
 

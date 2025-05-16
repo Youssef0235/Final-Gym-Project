@@ -15,8 +15,8 @@ public:
 	Subscription();
 	Subscription(string Name, Date EndDate);
 
-	void setPlanName(string Name);
 	void setPlan(const Subscription& subscription);
+	void setPlanName(string Name);
 	void setEndDate(const Date& EndDate);
 	void calcEndDate();
 

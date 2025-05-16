@@ -14,9 +14,9 @@ class Member : public Person
 {
 private:
     Subscription plan;
-    deque<string>pastWorkouts;
-    unordered_set<long long>subClasses;
-    set<Slot>slotsVec;
+    deque<string>pastWorkouts; // Gym
+    unordered_set<long long>subClasses; // Classes
+    set<Slot>slotsVec; // Padel
     vector<string>inbox;
     long long ID;
     bool isVip;
@@ -38,16 +38,15 @@ public:
     long long getID() const;
     deque<string>getPastWorkouts() const;
     unordered_set<long long>getSubClasses() const;
-    string getPlanName() const;
     int getVisits() const;
     int getTotalPaid() const;
-    Date getEndDate() const;
     set<Slot>getSlots() const;
     vector<string>getInbox() const;
-    
+    Subscription getPlan() const;
+    bool isSubscribed() const;
+
 
     // For Staff
-    Subscription getPlan();
     void joinClass(long long classId);
     void leaveClass(long long classId);
     void addWorkout(string workout);
@@ -56,11 +55,13 @@ public:
     void addSlot(const Slot& slot);
     void pushMessage(string Message);
     void clearInbox();
+
+
     void renewPlan();
     void cancelPlan();
 
     // Operator Overloading
-    bool operator == (const Member& member);
+    bool operator == (const Member& member) const;
 };
 
 
@@ -94,12 +95,12 @@ inline void to_json(json& j, const Member& u)
         {"Last Name", u.getLname()},
         {"Birth Date", u.getDateOfBirth()},
         {"ID", u.getID()},
-        {"Plan", u.getPlanName()},
+        {"Plan", u.getPlan().getName()},
         {"Past Workouts", u.getPastWorkouts()},
         {"VIP", u.getVipStatus()},
         {"Visits", u.getVisits()},
         {"Classes", u.getSubClasses()},
-        {"End Date", u.getEndDate()},
+        {"End Date", u.getPlan().getEndDate()},
         {"Total Paid", u.getTotalPaid()},
         {"Slots", u.getSlots()},
         {"Inbox", u.getInbox()}

@@ -87,20 +87,23 @@ int ClassSession::getClassPrice() const
 
 void ClassSession::addMember(long long memberId)
 {
+	// O(1)
 	classMembers.insert(memberId);
 }
 
 void ClassSession::removeMember(long long memberId)
 {
+	// O(1)
 	classMembers.erase(memberId);
 }
 
 void ClassSession::clearClassMembers()
 {
+	// O(n)
 	classMembers.clear();
 }
 
 bool ClassSession::hasSpace()
 {
-	return classMembers.size() <= classCapacity;
+	return classMembers.size() < classCapacity;
 }

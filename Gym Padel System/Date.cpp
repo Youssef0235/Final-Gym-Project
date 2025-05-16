@@ -126,7 +126,8 @@ bool Date::oneWeekLeft(const Date& a, const Date& b)
     return diff <= 7 * 24 * 60 * 60;
 }
 
-bool Date::isHourInPast(int hour) {
+bool Date::isHourInPast(int hour) 
+{
 
     std::time_t now = std::time(nullptr);
     std::tm current_tm;

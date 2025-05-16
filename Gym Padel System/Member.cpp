@@ -66,6 +66,7 @@ bool Member::getVipStatus() const
 
 void Member::addWorkout(string workout)
 {
+    // We Need Last 5 Only, Pop Front
     while (pastWorkouts.size() >= 5)
         pastWorkouts.pop_front();
     pastWorkouts.push_back(workout);
@@ -73,21 +74,25 @@ void Member::addWorkout(string workout)
 
 void Member::removeSlot(const Slot& slot)
 {
+    // O(Log n)
     slotsVec.erase(slot);
 }
 
 bool Member::inClass(long long classId)
 {
+    // O(1)
     return subClasses.find(classId) != subClasses.end();
 }
 
 void Member::addSlot(const Slot& slot)
 {
+    // O(Log n)
     slotsVec.insert(slot);
 }
 
 void Member::pushMessage(string Message)
 {
+    // If Message Already In Inbox, Just Return
     for (int i = 0; i < inbox.size(); i++)
     {
         if (inbox[i] == Message)
@@ -98,6 +103,7 @@ void Member::pushMessage(string Message)
 
 void Member::clearInbox()
 {
+    // O(n)
     inbox.clear();
 }
 
@@ -111,10 +117,6 @@ deque<string> Member::getPastWorkouts() const
     return pastWorkouts;
 }
 
-string Member::getPlanName() const
-{
-    return plan.getName();
-}
 
 int Member::getVisits() const
 {
@@ -131,11 +133,6 @@ unordered_set<long long> Member::getSubClasses() const
     return subClasses;
 }
 
-Date Member::getEndDate() const
-{
-    return plan.getEndDate();
-}
-
 set<Slot> Member::getSlots() const
 {
     return slotsVec;
@@ -146,18 +143,25 @@ vector<string> Member::getInbox() const
     return inbox;
 }
 
-Subscription Member::getPlan()
+Subscription Member::getPlan() const
 {
     return plan;
 }
 
+bool Member::isSubscribed() const
+{
+    return plan.getName() != "";
+}
+
 void Member::joinClass(long long classId)
 {
+    // O(1)
     subClasses.insert(classId);
 }
 
 void Member::leaveClass(long long classId)
 {
+    // O(1)
     subClasses.erase(classId);
 }
 
@@ -171,7 +175,7 @@ void Member::cancelPlan()
     plan.cancelPlan();
 }
 
-bool Member::operator == (const Member& member)
+bool Member::operator == (const Member& member) const
 {
     return fName == member.fName and
         mName == member.mName and

@@ -47,16 +47,16 @@ void ReceptionistPage::SearchButtonClicked()
 			QString y = QString::number(FileManager::members[id].getDateOfBirth().getYear());
 			QTableWidgetItem* year = new QTableWidgetItem(y);
 
-			QString ed = QString::number(FileManager::members[id].getEndDate().getDay());
+			QString ed = QString::number(FileManager::members[id].getPlan().getEndDate().getDay());
 			QTableWidgetItem* endDay = new QTableWidgetItem(ed);
 
-			QString em = QString::number(FileManager::members[id].getEndDate().getMonth());
+			QString em = QString::number(FileManager::members[id].getPlan().getEndDate().getMonth());
 			QTableWidgetItem* endMonth = new QTableWidgetItem(em);
 
-			QString ey = QString::number(FileManager::members[id].getEndDate().getYear());
+			QString ey = QString::number(FileManager::members[id].getPlan().getEndDate().getYear());
 			QTableWidgetItem* endYear = new QTableWidgetItem(ey);
 
-			QString p = QString::fromStdString(FileManager::members[id].getPlanName());
+			QString p = QString::fromStdString(FileManager::members[id].getPlan().getName());
 			QTableWidgetItem* Plan = new QTableWidgetItem(p);
 
 			ui.tableWidget->setItem(0, 0, FirstName);

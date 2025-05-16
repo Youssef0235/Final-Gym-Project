@@ -6,9 +6,12 @@ Receptionist::Receptionist(string firstName, string middleName, string lastName,
 
 void Receptionist::sendRenewalNoti()
 {
+	Date todays = Date::getTodaysDate();
 	for (int i = 1; i <= FileManager::members.size(); i++)
 	{
-		if (Date::oneWeekLeft(Date::getTodaysDate(), FileManager::members[i].getEndDate()) && FileManager::members[i].getPlanName() != "")
+		Date memberEndDate = FileManager::members[i].getPlan().getEndDate();
+		bool memberHasPlan = FileManager::members[i].getPlan().getName() != "";
+		if (Date::oneWeekLeft(todays, memberEndDate) and memberHasPlan)
 			FileManager::members[i].pushMessage(Messages::earlyRenewal());
 	}
 }
@@ -30,11 +33,12 @@ bool Receptionist::addToClass(long long classId, long long memberId)
 		FileManager::classes[classId].addMember(memberId);
 		FileManager::members[memberId].joinClass(classId);
 		FileManager::members[memberId].setTotalPaid(FileManager::members[memberId].getTotalPaid() + FileManager::classes[classId].getClassPrice());
-		return true;
+		return true; // Added
 	}
 	return false;
 }
 
+// check
 bool Receptionist::removeFromClass(long long index, long long memberId)
 {
 	long long classID = FileManager::getMemberClassID(memberId, FileManager::classes[index].getClassName());
@@ -75,11 +79,6 @@ void Receptionist::addFirstInWaiting(long long classId)
 	// Send Message And Add
 	addToClass(classId, id);
 	FileManager::members[id].pushMessage(Messages::addedTo(FileManager::classes[classId].getClassName()));
-}
-
-void Receptionist::removeMemberFromGym(long long memberId)
-{
-	FileManager::members.erase(memberId);
 }
 
 long long Receptionist::getLastMemberId()

@@ -21,7 +21,6 @@ public:
     void unAssignClass(long long classId);
 	unordered_set<long long> getAssignedClasses() const;
     void clearAssignedClasses();
-
 };
 
 inline void from_json(const json& j, Coach& u)

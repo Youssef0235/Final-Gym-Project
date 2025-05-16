@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 	FileManager::handleSubscriptions();
 	BookingSystem::checkSlotTimePassed();
 	BookingSystem::setBookedSlots(FileManager::getBookedSlots());
+	BookingSystem::loadBookedSlotsSet();
 	Receptionist::sendRenewalNoti();
 
     QApplication GymPadelSystem(argc, argv);

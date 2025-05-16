@@ -17,12 +17,14 @@ int Manager::getTotalRevenue()
 	auto staffIt = FileManager::staff.begin();
 	while (staffIt != FileManager::staff.end())
 	{
+		// Sum Of Salaries
 		totalPaidByGym += FileManager::staff[staffIt->first]->getSalary();
 		staffIt++;
 	}
 	auto membersIt = FileManager::members.begin();
 	while (membersIt != FileManager::members.end())
 	{
+		// Total Paid By Members
 		totalPaidToGym += FileManager::members[membersIt->first].getTotalPaid();
 		membersIt++;
 	}
@@ -31,6 +33,7 @@ int Manager::getTotalRevenue()
 
 vector<long long> Manager::getMostActive()
 {
+	// O(n Log n)
 	vector<Member>myMembers;
 	auto it = FileManager::members.begin();
 	while (it != FileManager::members.end())
