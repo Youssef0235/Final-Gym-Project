@@ -98,7 +98,7 @@ void LoginPage::SignUpButtonClicked()
 
 void LoginPage::ExitButtonClicked()
 {
-	FileManager::clearInbox(AccountID);
+	FileManager::members[AccountID].clearInbox();
 	FileManager::Save();
 	QApplication::exit(0);
 }

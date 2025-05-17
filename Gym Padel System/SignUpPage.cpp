@@ -77,7 +77,7 @@
 
 	void SignUpPage::ExitButtonClicked()
 	{
-		FileManager::clearInbox(MemberID);
+		FileManager::members[MemberID].clearInbox();
 		FileManager::Save();
 		QApplication::exit(0);
 	}

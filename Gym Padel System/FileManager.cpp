@@ -17,10 +17,12 @@ map<long long, ClassSession> FileManager::classes;
 unordered_map<int, Staff*> FileManager::staff;
 bool FileManager::reset;
 
+
 FileManager::FileManager() {}
 
 vector<ClassSession> FileManager::getSessions(string className)
 {
+	// O(1)
 	vector<ClassSession> classSessions;
 	auto it = classes.begin();
 
@@ -35,10 +37,10 @@ vector<ClassSession> FileManager::getSessions(string className)
 	return classSessions;
 }
 
-bool FileManager::AlreadyInClass(long long MemberID, long long ClassID)
+bool FileManager::AlreadyInClass(long long memberId, long long ClassID)
 {
-	unordered_set<long long> subClassesIDs = members[MemberID].getSubClasses();
-
+	// O(1)
+	unordered_set<long long> subClassesIDs = members[memberId].getSubClasses();
 	auto it = subClassesIDs.begin();
 	while (it != subClassesIDs.end())
 	{
@@ -63,8 +65,8 @@ map<long long, set<Slot>> FileManager::getBookedSlots()
 
 long long FileManager::getMemberClassID(long long MemberID, string ClassName)
 {
+	// O(1)
 	unordered_set<long long> subClassesIDs = members[MemberID].getSubClasses();
-
 	auto it = subClassesIDs.begin();
 	while (it != subClassesIDs.end())
 	{
@@ -437,7 +439,8 @@ void FileManager::saveReset()
 
 void FileManager::itsFirstDay()
 {
-	if (Date::isFirstDay() && reset)
+	bool firstDay = Date::isFirstDay();
+	if (firstDay && reset)
 	{
 		clearWaitingList();
 		clearVipWaitingList();
@@ -445,10 +448,10 @@ void FileManager::itsFirstDay()
 		clearVisits();
 		clearTotalPaid();
 		clearVip();
-		reset = 0;
+		reset = false;
 	}
-	else
-		reset = 1;
+	else if(!firstDay)
+		reset = true;
 }
 
 void FileManager::handleSubscriptions()
@@ -543,9 +546,4 @@ bool FileManager::isStaff(string firstName, string middleName, string lastName, 
 	string mName = staff[id]->getMname();
 	string lName = staff[id]->getLname();
 	return fName == firstName && mName == middleName && lName == lastName;
-}
-
-void FileManager::clearInbox(long long memberId)
-{
-	members[memberId].clearInbox();
 }

@@ -41,6 +41,7 @@ private:
 	static void clearVisits();
 	static void clearTotalPaid();
 	static void clearVip();
+	static bool reset;
 
 public:
 	FileManager();
@@ -51,10 +52,8 @@ public:
 	static map<long long, queue<long long>>vipWaitingList;
 	static map<long long, ClassSession>classes;
 	static unordered_map<int, Staff*>staff;
-	static bool reset;
 	static vector<ClassSession> getSessions(string className);
 	static long long getMemberClassID(long long MemberID, string ClassName);
-	static bool AlreadyInClass(long long MemberID, long long ClassID);
 	static map<long long, set<Slot>> getBookedSlots();
 
 
@@ -64,9 +63,9 @@ public:
 
 	// Handle Ended Subs
 	static void handleSubscriptions();
+	static bool AlreadyInClass(long long MemberID, long long ClassID);
 
 	// Utilities
-	static void clearInbox(long long memberId);
 	static bool matchingNameAndId(string firstName, string middleName, string lastName, long long id);
 	static bool isStaff(string firstName, string middleName, string lastName, int id);
 };

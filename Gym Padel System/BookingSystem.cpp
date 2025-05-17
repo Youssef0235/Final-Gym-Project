@@ -70,7 +70,8 @@ void BookingSystem::checkSlotTimePassed()
 void BookingSystem::makeBooking(const Slot& slot, long long memberId)
 {
 	// O(Log n)
-	FileManager::members[memberId].setTotalPaid(FileManager::members[memberId].getTotalPaid() + FileManager::courts[slot.getCourtID()].getBookingPrice());
+	int courtPrice = FileManager::courts[slot.getCourtID()].getBookingPrice();
+	FileManager::members[memberId].incPaidBy(courtPrice);
 	FileManager::members[memberId].addSlot(slot);
 	bookedSlotsSet.insert(slot);
 	bookedSlots[memberId].insert(slot);
@@ -92,7 +93,8 @@ bool BookingSystem::cancelBooking(long long memberId, Slot slot)
 	// Vip Can Cancel Whenever
 	if (FileManager::members[memberId].getVipStatus() || hoursDiff > 3)
 	{
-		FileManager::members[memberId].setTotalPaid(FileManager::members[memberId].getTotalPaid() - FileManager::courts[slot.getCourtID()].getBookingPrice() * 0.5);
+		int halfPrice = FileManager::courts[slot.getCourtID()].getBookingPrice() * 0.5;
+		FileManager::members[memberId].incPaidBy(-halfPrice);
 		removeSlot(memberId, slot);
 		return true;
 	}

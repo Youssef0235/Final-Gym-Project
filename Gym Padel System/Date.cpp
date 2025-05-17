@@ -128,22 +128,19 @@ bool Date::oneWeekLeft(const Date& a, const Date& b)
 
 bool Date::isHourInPast(int hour) 
 {
-
     std::time_t now = std::time(nullptr);
     std::tm current_tm;
 
-    if (localtime_s(&current_tm, &now) != 0) {
+    if (localtime_s(&current_tm, &now) != 0)
         return false;
-    }
 
     // Get the current hour
     int currentHour = current_tm.tm_hour;
 
-    if (hour < 0 || hour > 23) {
+    if (hour < 0 || hour > 23)
         return false;
-    }
 
-    return (hour <= currentHour);
+    return hour <= currentHour;
 }
 
 bool Date::operator == (const Date& date) const

@@ -126,7 +126,8 @@ void MemberLoggedInPage::ConfirmPlanButtonClicked()
 	if (ui.BasicRB->isChecked())
 	{
 		FileManager::members[MemberID].setPlan(1);
-		FileManager::members[MemberID].setTotalPaid(FileManager::members[MemberID].getTotalPaid() + ReadData::getPrice("Basic"));
+		int basicPrice = ReadData::getPrice("Basic");
+		FileManager::members[MemberID].incPaidBy(basicPrice);
 		ExitMPWButtonClicked();
 		ui.DoneMsgLabel->setText("Done!");
 		ui.DoneMsg->setVisible(true);
@@ -134,7 +135,8 @@ void MemberLoggedInPage::ConfirmPlanButtonClicked()
 	else if (ui.StandardRB->isChecked())
 	{
 		FileManager::members[MemberID].setPlan(2);
-		FileManager::members[MemberID].setTotalPaid(FileManager::members[MemberID].getTotalPaid() + ReadData::getPrice("Standard"));
+		int standardPrice = ReadData::getPrice("Standard");
+		FileManager::members[MemberID].incPaidBy(standardPrice);		
 		ExitMPWButtonClicked();
 		ui.DoneMsgLabel->setText("Done!");
 		ui.DoneMsg->setVisible(true);
@@ -142,7 +144,8 @@ void MemberLoggedInPage::ConfirmPlanButtonClicked()
 	else if (ui.PremiumRB->isChecked())
 	{
 		FileManager::members[MemberID].setPlan(3);
-		FileManager::members[MemberID].setTotalPaid(FileManager::members[MemberID].getTotalPaid() + ReadData::getPrice("Premium"));
+		int premiumPrice = ReadData::getPrice("Premium");
+		FileManager::members[MemberID].incPaidBy(premiumPrice);
 		ExitMPWButtonClicked();
 		ui.DoneMsgLabel->setText("Done!");
 		ui.DoneMsg->setVisible(true);
@@ -150,7 +153,8 @@ void MemberLoggedInPage::ConfirmPlanButtonClicked()
 	else if (ui.UltimateRB->isChecked())
 	{
 		FileManager::members[MemberID].setPlan(4);
-		FileManager::members[MemberID].setTotalPaid(FileManager::members[MemberID].getTotalPaid() + ReadData::getPrice("Ultimate"));
+		int ultimatePrice = ReadData::getPrice("Ultimate");
+		FileManager::members[MemberID].incPaidBy(ultimatePrice);
 		ExitMPWButtonClicked();
 		ui.DoneMsgLabel->setText("Done!");
 		ui.DoneMsg->setVisible(true);
@@ -181,7 +185,7 @@ void MemberLoggedInPage::RenewPlanButtonClicked()
 	else if(isOneWeek)
 	{
 		newPrice = Receptionist::applyDiscount(FileManager::members[MemberID].getPlan().getName(), 0.25);
-		FileManager::members[MemberID].setTotalPaid(FileManager::members[MemberID].getTotalPaid() + newPrice);
+		FileManager::members[MemberID].incPaidBy(newPrice);
 		QString np = QString::number(newPrice);
 		ui.RenewPlanWidgetTxtEdit->setText("The new price is " + np + " due to early renewal\nAre you sure you want to renew?");
 		ui.RenewPlanWidget->setVisible(true);
@@ -189,7 +193,7 @@ void MemberLoggedInPage::RenewPlanButtonClicked()
 	else
 	{
 		newPrice = ReadData::getPrice(FileManager::members[MemberID].getPlan().getName());
-		FileManager::members[MemberID].setTotalPaid(FileManager::members[MemberID].getTotalPaid() + newPrice);
+		FileManager::members[MemberID].incPaidBy(newPrice);
 		QString np = QString::number(newPrice);
 		ui.RenewPlanWidgetTxtEdit->setText("The price is " + np + "\nAre you sure you want to renew?");
 		ui.RenewPlanWidget->setVisible(true);
@@ -831,7 +835,8 @@ void MemberLoggedInPage::VIPButtonClicked()
 void MemberLoggedInPage::VIPConfirmButtonClicked()
 {
 	FileManager::members[MemberID].setVipStatus(true);
-	FileManager::members[MemberID].setTotalPaid(FileManager::members[MemberID].getTotalPaid() + ReadData::getVipPrice());
+	int vip = ReadData::getVipPrice();
+	FileManager::members[MemberID].incPaidBy(vip);
 	ui.VIPConfirmWidget->setVisible(false);
 	ui.VIPWidget->setVisible(false);
 	ui.VIPMLabel->setStyleSheet("background: none; color: rgba( 253, 208, 23,0.7);");
@@ -882,7 +887,7 @@ void MemberLoggedInPage::ExitNWButtonClicked()
 
 void MemberLoggedInPage::ExitButtonClicked()
 {
-	FileManager::clearInbox(MemberID);
+	FileManager::members[MemberID].clearInbox();
 	FileManager::Save();
 	QApplication::exit(0);
 }

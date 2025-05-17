@@ -32,7 +32,8 @@ bool Receptionist::addToClass(long long classId, long long memberId)
 	{
 		FileManager::classes[classId].addMember(memberId);
 		FileManager::members[memberId].joinClass(classId);
-		FileManager::members[memberId].setTotalPaid(FileManager::members[memberId].getTotalPaid() + FileManager::classes[classId].getClassPrice());
+		int classPrice = FileManager::classes[classId].getClassPrice();
+		FileManager::members[memberId].incPaidBy(classPrice);
 		return true; // Added
 	}
 	return false;

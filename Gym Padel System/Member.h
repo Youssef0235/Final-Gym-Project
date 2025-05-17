@@ -33,6 +33,7 @@ public:
     void setTotalPaid(int TotalPaid);
     void setSlots(set<Slot>Slots);
     void setInbox(vector<string>Inbox);
+    void setPlan(const Subscription& sub);
 
     bool getVipStatus() const;
     long long getID() const;
@@ -46,7 +47,6 @@ public:
     bool isSubscribed() const;
 
 
-    // For Staff
     void joinClass(long long classId);
     void leaveClass(long long classId);
     void addWorkout(string workout);
@@ -55,7 +55,7 @@ public:
     void addSlot(const Slot& slot);
     void pushMessage(string Message);
     void clearInbox();
-
+    void incPaidBy(int money);
 
     void renewPlan();
     void cancelPlan();

@@ -59,6 +59,11 @@ void Member::setInbox(vector<string> Inbox)
     inbox = Inbox;
 }
 
+void Member::setPlan(const Subscription& sub)
+{
+    plan = sub;
+}
+
 bool Member::getVipStatus() const
 {
     return isVip;
@@ -105,6 +110,11 @@ void Member::clearInbox()
 {
     // O(n)
     inbox.clear();
+}
+
+void Member::incPaidBy(int money)
+{
+    totalPaid += money;
 }
 
 long long Member::getID() const
